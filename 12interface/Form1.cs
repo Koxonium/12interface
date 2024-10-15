@@ -22,36 +22,37 @@ namespace _12interface
         void Start()
         {
             db = new dbHandler();
-            db.ReadAll();
-
 
             guna2TextBox2.PasswordChar = '*';
             guna2Button1.Click += LoginEvent;
+
+            guna2Button2.Click += RegisterEvent;
         }
 
         void LoginEvent(object s, EventArgs e)
         {
+            db.ReadAll();
             foreach (user item in user.users)
             {
                 if (guna2TextBox1.Text == item.username && guna2TextBox2.Text == item.password)
                 {
                     MessageBox.Show("Sikeres bejelentkezés!");
+                    game Game = new game(item);
+                    Game.Show();
+                    this.Hide();
+                    Game.FormClosing += (s1, e1) => Application.Exit();
                     break;
-                }
-                else if (item.username != guna2TextBox1.Text)
-                {
-                    MessageBox.Show("Helytelen a megadott a felhasználónév!");
-                }
-                else if (item.password != guna2TextBox2.Text)
-                {
-                    MessageBox.Show("Helytelen a megadott jelszó!");
                 }
             }
         }
 
         void RegisterEvent(object s, EventArgs e)
         {
-
+            user oneUser = new user();
+            oneUser.username = guna2TextBox1.Text;
+            oneUser.password = guna2TextBox2.Text;
+            oneUser.point = 0;
+            db.InsertOne(oneUser);
         }
     }
 }

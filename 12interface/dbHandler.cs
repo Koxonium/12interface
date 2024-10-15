@@ -69,10 +69,11 @@ namespace _12interface
                 user.users.Add(oneUser);
                 command.Dispose();
                 connection.Close();
+                MessageBox.Show("Sikeres regisztráció!", "Siker");
             }
             catch (Exception e)
             {
-                MessageBox.Show(e.Message);
+                MessageBox.Show("Sikertelen regisztráció: " + e.Message);
             }
         }
 
@@ -83,15 +84,16 @@ namespace _12interface
                 connection.Open();
                 string query = $"SELECT * FROM {tableName}";
                 MySqlCommand command = new MySqlCommand(query,connection);
-
                 MySqlDataReader read = command.ExecuteReader();
+                user.users.Clear();
+
                 while (read.Read())
                 {
                     user oneUser = new user();
                     oneUser.id = read.GetInt32(read.GetOrdinal("ID"));
                     oneUser.point = read.GetInt32(read.GetOrdinal("points"));
-                    oneUser.username = read.GetString("username");
-                    oneUser.password = read.GetString("password");
+                    oneUser.username = read.GetString(read.GetOrdinal("username"));
+                    oneUser.password = read.GetString(read.GetOrdinal("password"));
                     user.users.Add(oneUser);
                 }
                 read.Close();
