@@ -36,7 +36,7 @@ namespace _12interface
             {
                 if (guna2TextBox1.Text == item.username && guna2TextBox2.Text == item.password)
                 {
-                    MessageBox.Show("Sikeres bejelentkezés!");
+                    //MessageBox.Show("Sikeres bejelentkezés!");
                     game Game = new game(item);
                     Game.Show();
                     this.Hide();
